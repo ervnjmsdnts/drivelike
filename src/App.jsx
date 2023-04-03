@@ -1,8 +1,5 @@
-import { useState } from 'react';
-
 const App = () => {
-  const [test] = useState();
-  return <div className="App">{test}</div>;
+  return <div className="App">Hello World</div>;
 };
 
 export default App;
