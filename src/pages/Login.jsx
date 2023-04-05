@@ -44,7 +44,16 @@ const Login = () => {
                 fullWidth
                 size="large"
               >
-                Log in
+                Go to User
+              </Button>
+              <Button
+                LinkComponent={RouterLink}
+                to="/admin"
+                variant="contained"
+                fullWidth
+                size="large"
+              >
+                Go to Admin
               </Button>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'end' }}>
