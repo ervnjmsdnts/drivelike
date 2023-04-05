@@ -17,7 +17,7 @@ import {
   styled
 } from '@mui/material';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -58,12 +58,19 @@ const Navigation = ({ children }) => {
   const pathname = location.pathname;
   const [isAdmin] = useState(pathname.includes('admin'));
 
+  const navigate = useNavigate();
+
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    setAnchorEl(null);
+    navigate('/');
   };
   return (
     <Box sx={{ display: 'flex' }}>
@@ -121,7 +128,7 @@ const Navigation = ({ children }) => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Change Password</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </div>
           </Box>
