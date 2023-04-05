@@ -1,7 +1,7 @@
 import { Box, TextField } from '@mui/material';
 import { forwardRef } from 'react';
 
-const AuthInput = forwardRef(({ errors, ...rest }, ref) => {
+const Input = forwardRef(({ errors, ...rest }, ref) => {
   return (
     <Box width="100%">
       <TextField
@@ -15,6 +15,6 @@ const AuthInput = forwardRef(({ errors, ...rest }, ref) => {
   );
 });
 
-AuthInput.displayName = 'AuthInput';
+Input.displayName = 'AuthInput';
 
-export default AuthInput;
+export default Input;

@@ -1,6 +1,6 @@
 import { Box, Button, Link, Stack, Typography } from '@mui/material';
-import AuthInput from '../components/AuthInput';
 import { Link as RouterLink } from 'react-router-dom';
+import Input from '../components/Input';
 
 const Login = () => {
   return (
@@ -35,8 +35,8 @@ const Login = () => {
               flexDirection="column"
               gap="16px"
             >
-              <AuthInput label="Email" />
-              <AuthInput label="Password" type="password" />
+              <Input label="Email" />
+              <Input label="Password" type="password" />
               <Button
                 LinkComponent={RouterLink}
                 to="/user"

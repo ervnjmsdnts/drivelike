@@ -4,22 +4,23 @@ import { Key } from '@mui/icons-material';
 import ResetLayout from '../layouts/ResetLayout';
 import { Link } from 'react-router-dom';
 
-const ForgotPassword = () => {
+const SetNewPassword = () => {
   return (
     <ResetLayout>
       <Key color="primary" fontSize="large" />
       <Box textAlign="center">
         <Typography sx={{ fontWeight: 'bold' }} variant="h5">
-          Forgot password?
+          Set new password
         </Typography>
         <Typography color="gray" sx={{ fontWeight: 'bold' }}>
-          No Worries, we&apos;ll send you reset instructions
+          Your new password must be different to previously used passwords.
         </Typography>
       </Box>
-      <Input label="Email" />
+      <Input label="Password" type="password" />
+      <Input label="Confirm password" type="password" />
       <Button
         LinkComponent={Link}
-        to="/set-new-password"
+        to="/reset-success"
         variant="contained"
         fullWidth
         size="large"
@@ -30,4 +31,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default SetNewPassword;

@@ -1,33 +1,31 @@
 import { Box, Button, Typography } from '@mui/material';
-import Input from '../components/Input';
-import { Key } from '@mui/icons-material';
+import { CheckCircle } from '@mui/icons-material';
 import ResetLayout from '../layouts/ResetLayout';
 import { Link } from 'react-router-dom';
 
-const ForgotPassword = () => {
+const ResetSuccess = () => {
   return (
     <ResetLayout>
-      <Key color="primary" fontSize="large" />
+      <CheckCircle color="success" fontSize="large" />
       <Box textAlign="center">
         <Typography sx={{ fontWeight: 'bold' }} variant="h5">
-          Forgot password?
+          Password reset
         </Typography>
         <Typography color="gray" sx={{ fontWeight: 'bold' }}>
-          No Worries, we&apos;ll send you reset instructions
+          Your password has been successfully reset.
         </Typography>
       </Box>
-      <Input label="Email" />
       <Button
         LinkComponent={Link}
-        to="/set-new-password"
+        to="/"
         variant="contained"
         fullWidth
         size="large"
       >
-        Reset Password
+        Back to log in
       </Button>
     </ResetLayout>
   );
 };
 
-export default ForgotPassword;
+export default ResetSuccess;
