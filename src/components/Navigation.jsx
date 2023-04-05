@@ -127,7 +127,9 @@ const Navigation = ({ children }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Change Password</MenuItem>
+                {!isAdmin && (
+                  <MenuItem onClick={handleClose}>Change Password</MenuItem>
+                )}
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </div>
