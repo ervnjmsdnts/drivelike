@@ -51,7 +51,13 @@ const rows = [
 ];
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 240 },
+  {
+    field: 'id',
+    headerName: 'ID',
+    width: 240,
+    disableColumnMenu: true,
+    sortable: false
+  },
   { field: 'email', headerName: 'Email', flex: 1 },
   { field: 'createdAt', headerName: 'Created At', flex: 1 }
 ];
