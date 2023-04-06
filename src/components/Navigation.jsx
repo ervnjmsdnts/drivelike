@@ -13,6 +13,7 @@ import {
   Menu,
   MenuItem,
   Toolbar,
+  Typography,
   alpha,
   styled
 } from '@mui/material';
@@ -149,7 +150,9 @@ const Navigation = ({ children }) => {
           variant="permanent"
           anchor="left"
         >
-          <Toolbar />
+          <Toolbar>
+            <Typography>Tentative Drawer</Typography>
+          </Toolbar>
           <Divider />
           <List>
             {['Users'].map((text) => (
