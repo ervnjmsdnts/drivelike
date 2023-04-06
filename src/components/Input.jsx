@@ -15,6 +15,6 @@ const Input = forwardRef(({ errors, ...rest }, ref) => {
   );
 });
 
-Input.displayName = 'AuthInput';
+Input.displayName = 'Input';
 
 export default Input;
