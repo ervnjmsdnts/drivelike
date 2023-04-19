@@ -1,8 +1,52 @@
-import { Box, Button, Link, Stack, Typography } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import Input from '../components/Input';
+import { useMutation } from 'react-query';
+import { login } from '../actions';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'react-toastify';
+
+const loginSchema = z.object({
+  username: z
+    .string()
+    .nonempty({ message: 'Field is required' })
+    .email({ message: 'Must be a valid email' }),
+  password: z
+    .string()
+    .nonempty({ message: 'Field is required' })
+    .min(6, { message: 'Password must be atleast 6 characters' })
+});
 
 const Login = () => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm({ resolver: zodResolver(loginSchema) });
+
+  const loginMutation = useMutation(login, {
+    onSuccess: (data) => {
+      const { access, user } = data;
+      localStorage.setItem('token', access);
+      localStorage.setItem('profile', JSON.stringify(user));
+
+      if (user.role === 'USER') {
+        window.location.href = '/user';
+      }
+      if (user.role === 'ADMIN') {
+        window.location.href = '/admin';
+      }
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    }
+  });
+
+  const onSubmit = (data) => {
+    loginMutation.mutate({ ...data });
+  };
+
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
       <Box
@@ -35,35 +79,25 @@ const Login = () => {
               flexDirection="column"
               gap="16px"
             >
-              <Input label="Email" />
-              <Input label="Password" type="password" />
+              <Input
+                label="Email"
+                errors={errors.username}
+                {...register('username', { required: true })}
+              />
+              <Input
+                label="Password"
+                type="password"
+                errors={errors.password}
+                {...register('password')}
+              />
               <Button
-                LinkComponent={RouterLink}
-                to="/user"
                 variant="contained"
                 fullWidth
                 size="large"
+                onClick={handleSubmit(onSubmit)}
               >
-                Go to User
+                Login
               </Button>
-              <Button
-                LinkComponent={RouterLink}
-                to="/admin"
-                variant="contained"
-                fullWidth
-                size="large"
-              >
-                Go to Admin
-              </Button>
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-              <Link
-                component={RouterLink}
-                underline="none"
-                to="forgot-password"
-              >
-                Forgot your password?
-              </Link>
             </Box>
           </Stack>
         </Box>
@@ -76,7 +110,7 @@ const Login = () => {
         alignItems="center"
       >
         <Typography variant="h2" color="white" fontWeight="bold">
-          Welcome to Name
+          Welcome to Math-Eturo
         </Typography>
       </Box>
     </Box>

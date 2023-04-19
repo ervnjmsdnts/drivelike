@@ -2,23 +2,16 @@ import { AccountCircle, Search as SearchIcon } from '@mui/icons-material';
 import {
   AppBar,
   Box,
-  Divider,
-  Drawer,
   IconButton,
   InputBase,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Menu,
   MenuItem,
   Toolbar,
-  Typography,
   alpha,
   styled
 } from '@mui/material';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -59,8 +52,6 @@ const Navigation = ({ children }) => {
   const pathname = location.pathname;
   const [isAdmin] = useState(pathname.includes('admin'));
 
-  const navigate = useNavigate();
-
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -71,14 +62,16 @@ const Navigation = ({ children }) => {
 
   const handleLogout = () => {
     setAnchorEl(null);
-    navigate('/');
+    localStorage.removeItem('token');
+    localStorage.removeItem('profile');
+    window.location.href = '/';
   };
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar
         position="fixed"
         sx={{
-          width: isAdmin ? `calc(100% - ${drawerWidth}px)` : '100%',
+          width: '100%',
           ml: `${drawerWidth}px`
         }}
       >
@@ -137,34 +130,6 @@ const Navigation = ({ children }) => {
           </Box>
         </Toolbar>
       </AppBar>
-      {isAdmin && (
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
-              width: drawerWidth,
-              boxSizing: 'border-box'
-            }
-          }}
-          variant="permanent"
-          anchor="left"
-        >
-          <Toolbar>
-            <Typography>Tentative Drawer</Typography>
-          </Toolbar>
-          <Divider />
-          <List>
-            {['Users'].map((text) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
-      )}
       <Box
         component="main"
         sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
