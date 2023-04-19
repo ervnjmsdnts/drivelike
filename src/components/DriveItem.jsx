@@ -5,19 +5,19 @@ const DriveItem = ({
   name,
   handleAction,
   id,
-  selectedFolder,
-  setSelectedFolder,
+  selectedItem,
+  setSelectedItem,
   Icon
 }) => {
   const handleClick = (event) => {
     if (event.detail === 1) {
-      setSelectedFolder(id);
+      setSelectedItem(id);
     } else if (event.detail === 2) {
       handleAction();
     }
   };
 
-  const isSelected = id === selectedFolder;
+  const isSelected = id === selectedItem;
 
   const color = isSelected ? blue[100] : blue[50];
 

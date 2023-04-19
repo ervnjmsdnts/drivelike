@@ -112,14 +112,14 @@ const User = () => {
             sx={{
               display: 'grid',
               gridTemplateColumns: 'repeat(6, 1fr)',
-              gap: 1
+              gap: 2
             }}
           >
             {folderQuery.data.map((folder) => (
               <DriveItem
                 name={folder.name}
-                selectedFolder={selectedFolder}
-                setSelectedFolder={setSelectedFolder}
+                selectedItem={selectedFolder}
+                setSelectedItem={setSelectedFolder}
                 id={folder.id}
                 Icon={Folder}
                 handleAction={() => navigate(folder.public_id)}

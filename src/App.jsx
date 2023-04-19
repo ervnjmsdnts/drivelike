@@ -13,6 +13,8 @@ const App = () => {
       <Route element={<ApplicationLayout />}>
         <Route path="user" element={<ProtectedRoute user={user} />}>
           <Route path="" element={<User />} />
+          <Route path=":folderId" element={<User />} />
+          <Route path=":folderId/:moduleId" element={<User />} />
         </Route>
         <Route path="admin" element={<ProtectedRoute user={user} />}>
           <Route path="" element={<Admin />} />
