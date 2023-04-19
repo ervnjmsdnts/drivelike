@@ -10,9 +10,50 @@ import {
 import { DataGrid } from '@mui/x-data-grid';
 import Input from '../../components/Input';
 import { useState } from 'react';
-import moment from 'moment';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { createUser, getAllUsers } from '../../actions';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'react-toastify';
+
+const createUserSchema = z.object({
+  email: z
+    .string()
+    .nonempty({ message: 'Field is required' })
+    .email({ message: 'Must be a valid email' }),
+  password: z
+    .string()
+    .nonempty({ message: 'Field is required' })
+    .min(6, { message: 'Password must be atleast 6 characters' })
+});
 
 const CreateNewUserModal = ({ onClose, open }) => {
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors }
+  } = useForm({ resolver: zodResolver(createUserSchema) });
+
+  const queryClient = useQueryClient();
+
+  const createUserMutation = useMutation(createUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('users');
+      reset({ email: '', password: '' });
+    },
+    onError: (error) => {
+      toast.error(error.response.data.detail[0].msg);
+    }
+  });
+
+  const onSubmit = (data) => {
+    data.role = 'USER';
+    createUserMutation.mutate({ ...data });
+    onClose();
+  };
+
   return (
     <Dialog onClose={onClose} open={open}>
       <DialogTitle>New User</DialogTitle>
@@ -20,50 +61,44 @@ const CreateNewUserModal = ({ onClose, open }) => {
         <Box
           sx={{ pt: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}
         >
-          <Input size="small" label="Email" />
-          <Input size="small" label="Password" type="password" />
+          <Input
+            size="small"
+            label="Email"
+            errors={errors.email}
+            {...register('email')}
+          />
+          <Input
+            size="small"
+            label="Password"
+            type="password"
+            errors={errors.password}
+            {...register('password')}
+          />
         </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button>Create</Button>
+        <Button onClick={handleSubmit(onSubmit)}>Create</Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-const rows = [
-  {
-    id: 1,
-    email: 'Hello@gmail.com',
-    createdAt: moment().format('MMMM DD, YYYY hh:mm A')
-  },
-  {
-    id: 2,
-    email: 'DataGridPro@email.com',
-    createdAt: moment().format('MMMM DD, YYYY hh:mm A')
-  },
-  {
-    id: 3,
-    email: 'MUI@thanks.com',
-    createdAt: moment().format('MMMM DD, YYYY hh:mm A')
-  }
-];
-
 const columns = [
   {
-    field: 'id',
+    field: 'public_id',
     headerName: 'ID',
-    width: 240,
+    flex: 1,
     disableColumnMenu: true,
     sortable: false
   },
-  { field: 'email', headerName: 'Email', flex: 1 },
-  { field: 'createdAt', headerName: 'Created At', flex: 1 }
+  { field: 'email', headerName: 'Email', flex: 1 }
 ];
 
 const Admin = () => {
   const [openCreateUser, setOpenCreateUser] = useState(false);
+
+  const allUsersQuery = useQuery('users', getAllUsers);
 
   return (
     <>
@@ -82,7 +117,14 @@ const Admin = () => {
           </Button>
         </Box>
         <Box sx={{ mt: 2 }}>
-          <DataGrid hideFooter rows={rows} columns={columns} autoHeight />
+          <DataGrid
+            hideFooter
+            getRowId={(row) => row.public_id}
+            rows={allUsersQuery.data ?? []}
+            columns={columns}
+            autoHeight
+            loading={allUsersQuery.isLoading}
+          />
         </Box>
       </Box>
     </>
