@@ -5,8 +5,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
-  Typography
+  DialogTitle
 } from '@mui/material';
 import { useState } from 'react';
 import Input from '../../components/Input';
@@ -18,6 +17,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
 import DriveItem from '../../components/DriveItem';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../components/Loading';
 
 const createFolderSchema = z.object({
   name: z.string().nonempty({ message: 'Field is required' })
@@ -106,7 +106,7 @@ const User = () => {
           </Button>
         </Box>
         {folderQuery.isLoading ? (
-          <Typography>Loading...</Typography>
+          <Loading />
         ) : (
           <Box
             sx={{
