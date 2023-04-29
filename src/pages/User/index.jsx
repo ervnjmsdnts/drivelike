@@ -83,7 +83,7 @@ const User = () => {
 
   const user = JSON.parse(localStorage.getItem('profile'));
 
-  const folderQuery = useQuery('folders', getFolders, {
+  const foldersQuery = useQuery('folders', getFolders, {
     select: (data) =>
       data.filter((d) => d.user_id.public_id === user.public_id),
     enabled: !!user
@@ -105,7 +105,7 @@ const User = () => {
             Create New Folder
           </Button>
         </Box>
-        {folderQuery.isLoading ? (
+        {foldersQuery.isLoading ? (
           <Loading />
         ) : (
           <Box
@@ -115,7 +115,7 @@ const User = () => {
               gap: 2
             }}
           >
-            {folderQuery.data.map((folder) => (
+            {foldersQuery.data.map((folder) => (
               <DriveItem
                 name={folder.name}
                 selectedItem={selectedFolder}
