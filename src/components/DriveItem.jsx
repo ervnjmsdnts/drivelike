@@ -39,7 +39,17 @@ const DriveItem = ({
       onClick={handleClick}
     >
       <Icon color="action" />
-      <Typography>{name}</Typography>
+      <Typography
+        title={name}
+        sx={{
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          maxWidth: '200px' // adjust this value as needed
+        }}
+      >
+        {name}
+      </Typography>
     </Box>
   );
 };

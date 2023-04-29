@@ -39,3 +39,28 @@ export const createModule = async (payload = {}) => {
   const response = await request.post('/modules/create-module', payload);
   return response.data;
 };
+
+export const getModule = async (moduleId) => {
+  const response = await request.get(`/modules/${moduleId}`);
+  return response.data;
+};
+
+export const insertFile = async ({ payload = {}, file }) => {
+  console.log('This is from actions: ', file);
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('payload', JSON.stringify(payload));
+
+  console.log({ formData });
+
+  const response = await request.post('/files/insert-file', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
+
+  return response.data;
+};
+
+export const getFiles = async () => {
+  const response = await request.get('/files/get-file-lists');
+  return response.data;
+};
