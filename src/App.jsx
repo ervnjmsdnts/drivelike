@@ -7,6 +7,7 @@ import NotExist from './pages/NotExist';
 import ProtectedRoute from './components/ProtectedRoute';
 import Folder from './pages/User/Folder';
 import Module from './pages/User/Module';
+import File from './pages/User/File';
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem('profile'));
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="" element={<User />} />
           <Route path=":folderId" element={<Folder />} />
           <Route path=":folderId/:moduleId" element={<Module />} />
+          <Route path=":folderId/:moduleId/:fileId" element={<File />} />
         </Route>
         <Route path="admin" element={<ProtectedRoute user={user} />}>
           <Route path="" element={<Admin />} />

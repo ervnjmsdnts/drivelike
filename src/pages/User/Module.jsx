@@ -8,21 +8,23 @@ import {
   Typography
 } from '@mui/material';
 import { useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { getFiles, getModule, insertFile } from '../../actions';
 import { toast } from 'react-toastify';
 import { Article, UploadFile } from '@mui/icons-material';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import DriveItem from '../../components/DriveItem';
 
 const InsertFileModal = ({ onClose, open, moduleId }) => {
   const [file, setFile] = useState(null);
 
+  const queryClient = useQueryClient();
+
   const user = JSON.parse(localStorage.getItem('profile'));
 
   const insertFileMutation = useMutation(insertFile, {
-    onSuccess: () => console.log('Success'),
+    onSuccess: () => queryClient.invalidateQueries('files'),
     onError: () => toast.error('Something went wrong!')
   });
 
@@ -72,14 +74,13 @@ const Module = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const { moduleId } = useParams();
+  const navigate = useNavigate();
 
   const filesQuery = useQuery('files', getFiles, {
     select: (data) => data.filter((t) => t.module_id.public_id === moduleId)
   });
 
   const moduleQuery = useQuery(['module', moduleId], () => getModule(moduleId));
-
-  console.log({ moduleQuery });
 
   return (
     <>
@@ -117,7 +118,7 @@ const Module = () => {
                 selectedItem={selectedFile}
                 setSelectedItem={setSelectedFile}
                 Icon={Article}
-                handleAction={() => {}}
+                handleAction={() => navigate(file.public_id)}
               />
             ))}
           </Box>

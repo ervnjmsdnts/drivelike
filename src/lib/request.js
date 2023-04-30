@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const request = axios.create({ baseURL: 'http://localhost:8000/api/v1' });
+const request = axios.create({
+  baseURL: 'https://filestoragewebapi-production.up.railway.app/api/v1'
+});
 
 request.interceptors.request.use(async (config) => {
   const token = localStorage.getItem('token');

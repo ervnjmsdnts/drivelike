@@ -6,7 +6,7 @@ export const login = async (payload = {}) => {
 };
 
 export const getAllUsers = async () => {
-  const response = await request.get('/users');
+  const response = await request.get('/users/');
   return response.data;
 };
 
@@ -62,5 +62,10 @@ export const insertFile = async ({ payload = {}, file }) => {
 
 export const getFiles = async () => {
   const response = await request.get('/files/get-file-lists');
+  return response.data;
+};
+
+export const getFile = async (fileId) => {
+  const response = await request.get(`/files/${fileId}`);
   return response.data;
 };
