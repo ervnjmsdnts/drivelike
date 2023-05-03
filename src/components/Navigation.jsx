@@ -1,8 +1,15 @@
-import { AccountCircle } from '@mui/icons-material';
+import { AccountCircle, FilterFrames, MenuBook } from '@mui/icons-material';
 import {
   AppBar,
   Box,
+  Divider,
+  Drawer,
   IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   // InputBase,
   Menu,
   MenuItem,
@@ -11,50 +18,21 @@ import {
   // styled
 } from '@mui/material';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
-// const Search = styled('div')(({ theme }) => ({
-//   position: 'relative',
-//   borderRadius: theme.shape.borderRadius,
-//   backgroundColor: alpha(theme.palette.common.white, 0.15),
-//   '&:hover': {
-//     backgroundColor: alpha(theme.palette.common.white, 0.25)
-//   },
-//   marginLeft: 0,
-//   width: '100%',
-//   maxWidth: '600px'
-// }));
-//
-// const SearchIconWrapper = styled('div')(({ theme }) => ({
-//   padding: theme.spacing(0, 2),
-//   height: '100%',
-//   position: 'absolute',
-//   pointerEvents: 'none',
-//   display: 'flex',
-//   alignItems: 'center',
-//   justifyContent: 'center'
-// }));
-//
-// const StyledInputBase = styled(InputBase)(({ theme }) => ({
-//   color: 'inherit',
-//   width: '100%',
-//   '& .MuiInputBase-input': {
-//     padding: theme.spacing(1, 1, 1, 0),
-//     paddingLeft: `calc(1em + ${theme.spacing(4)})`
-//   }
-// }));
-
 const Navigation = ({ children }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const location = useLocation();
-  const pathname = location.pathname;
-  const [isAdmin] = useState(pathname.includes('admin'));
+  const { pathname } = useLocation();
+
+  const isAdmin = pathname.includes('admin');
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const navigate = useNavigate();
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -69,9 +47,10 @@ const Navigation = ({ children }) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar
+        elevation={0}
         position="fixed"
         sx={{
-          width: '100%',
+          width: isAdmin ? '100%' : `calc(100% - ${drawerWidth}px)`,
           ml: `${drawerWidth}px`
         }}
       >
@@ -84,17 +63,6 @@ const Navigation = ({ children }) => {
               width: '100%'
             }}
           >
-            {/* {!isAdmin && ( */}
-            {/*   <Search> */}
-            {/*     <SearchIconWrapper> */}
-            {/*       <SearchIcon /> */}
-            {/*     </SearchIconWrapper> */}
-            {/*     <StyledInputBase */}
-            {/*       placeholder="Search…" */}
-            {/*       inputProps={{ 'aria-label': 'search' }} */}
-            {/*     /> */}
-            {/*   </Search> */}
-            {/* )} */}
             <div>
               <IconButton
                 size="large"
@@ -121,18 +89,55 @@ const Navigation = ({ children }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                {!isAdmin && (
-                  <MenuItem onClick={handleClose}>Change Password</MenuItem>
-                )}
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </div>
           </Box>
         </Toolbar>
       </AppBar>
+      {!isAdmin && (
+        <Drawer
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box'
+            }
+          }}
+          variant="permanent"
+          anchor="left"
+        >
+          <Toolbar />
+          <Divider />
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => navigate('user')}>
+                <ListItemIcon>
+                  <MenuBook />
+                </ListItemIcon>
+                <ListItemText primary="Materials" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => navigate('user/board')}>
+                <ListItemIcon>
+                  <FilterFrames />
+                </ListItemIcon>
+                <ListItemText primary="Board" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Drawer>
+      )}
       <Box
         component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        sx={{
+          height: '100%',
+          flexGrow: 1,
+          bgcolor: 'background.default',
+          p: 3
+        }}
       >
         <Toolbar />
         {children}

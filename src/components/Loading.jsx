@@ -10,7 +10,7 @@ const Loading = ({ height = '30vh' }) => {
         height
       }}
     >
-      <CircularProgress />
+      <CircularProgress sx={{ color: 'white' }} />
     </Box>
   );
 };

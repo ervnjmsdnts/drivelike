@@ -51,8 +51,6 @@ export const insertFile = async ({ payload = {}, file }) => {
   formData.append('file', file);
   formData.append('payload', JSON.stringify(payload));
 
-  console.log({ formData });
-
   const response = await request.post('/files/insert-file', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   });
@@ -67,5 +65,20 @@ export const getFiles = async () => {
 
 export const getFile = async (fileId) => {
   const response = await request.get(`/files/${fileId}`);
+  return response.data;
+};
+
+export const updateModule = async ({ moduleId, payload = {} }) => {
+  const response = await request.put(`/modules/${moduleId}`, payload);
+  return response.data;
+};
+
+export const deleteFile = async (fileId) => {
+  const response = await request.delete(`/files/${fileId}`);
+  return response.data;
+};
+
+export const deleteUser = async (userId) => {
+  const response = await request.delete(`/users/${userId}`);
   return response.data;
 };

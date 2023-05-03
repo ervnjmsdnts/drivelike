@@ -1,8 +1,9 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getFile } from '../../actions';
 import Loading from '../../components/Loading';
+import { ArrowBack } from '@mui/icons-material';
 
 const File = () => {
   const { fileId } = useParams();
@@ -15,15 +16,21 @@ const File = () => {
     );
   };
 
+  const navigate = useNavigate();
+
   return (
     <Box>
       {fileQuery.isLoading ? (
         <Loading />
       ) : (
         <Box>
-          <Typography sx={{ py: 1, fontWeight: 'bold' }}>
+          <Button
+            onClick={() => navigate(-1)}
+            startIcon={<ArrowBack />}
+            sx={{ py: 1, mb: 1, fontWeight: 'bold' }}
+          >
             {fileQuery.data.name}
-          </Typography>
+          </Button>
           <iframe
             width="100%"
             height="1000"

@@ -1,21 +1,23 @@
-import { PersonAddAlt1 } from '@mui/icons-material';
+import { Delete, PersonAddAlt1 } from '@mui/icons-material';
 import {
   Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
+  IconButton
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import Input from '../../components/Input';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { createUser, getAllUsers } from '../../actions';
+import { createUser, deleteUser, getAllUsers } from '../../actions';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
+import { Typography } from 'antd';
 
 const createUserSchema = z.object({
   email: z
@@ -84,24 +86,81 @@ const CreateNewUserModal = ({ onClose, open }) => {
   );
 };
 
-const columns = [
-  {
-    field: 'public_id',
-    headerName: 'ID',
-    flex: 1,
-    disableColumnMenu: true,
-    sortable: false
-  },
-  { field: 'email', headerName: 'Email', flex: 1 }
-];
+const DeleteUserModal = ({ onClose, open, selectedUser }) => {
+  const queryClient = useQueryClient();
+
+  console.log({ selectedUser });
+
+  const deleteUserMutation = useMutation(deleteUser, {
+    onSuccess: () => queryClient.invalidateQueries('users'),
+    onError: () => toast.error('Something went wrong!')
+  });
+
+  const onSubmit = async () => {
+    deleteUserMutation.mutate(selectedUser.public_id);
+    onClose();
+  };
+
+  return (
+    <Dialog onClose={onClose} open={open}>
+      <DialogTitle>Delete File</DialogTitle>
+      <DialogContent sx={{ minWidth: '400px' }}>
+        <Typography>Are you sure you want to delete user? </Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} disabled={deleteUserMutation.isLoading}>
+          Cancel
+        </Button>
+        <Button onClick={onSubmit} disabled={deleteUserMutation.isLoading}>
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 const Admin = () => {
+  const [selectedUser, setSelectedUser] = useState({});
   const [openCreateUser, setOpenCreateUser] = useState(false);
+  const [openDeleteUser, setOpenDeleteUser] = useState(false);
 
   const allUsersQuery = useQuery('users', getAllUsers);
 
+  const user = JSON.parse(localStorage.getItem('profile'));
+
+  const columns = [
+    {
+      field: 'public_id',
+      headerName: 'ID',
+      flex: 1,
+      disableColumnMenu: true,
+      sortable: false
+    },
+    { field: 'email', headerName: 'Email', flex: 1 },
+    {
+      field: 'delete',
+      headerName: '',
+      renderCell: (params) =>
+        user.public_id !== params.row.public_id && (
+          <IconButton
+            onClick={() => {
+              setSelectedUser(params.row);
+              setOpenDeleteUser(true);
+            }}
+          >
+            <Delete />
+          </IconButton>
+        )
+    }
+  ];
+
   return (
     <>
+      <DeleteUserModal
+        onClose={() => setOpenDeleteUser(false)}
+        open={openDeleteUser}
+        selectedUser={selectedUser}
+      />
       <CreateNewUserModal
         onClose={() => setOpenCreateUser(false)}
         open={openCreateUser}
