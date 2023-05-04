@@ -16,7 +16,14 @@ const File = () => {
     );
   };
 
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg'];
+  const videoExtensions = ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm'];
+
   const navigate = useNavigate();
+
+  const fileExtension =
+    !fileQuery.isLoading &&
+    fileQuery.data.file.substring(fileQuery.data.file.lastIndexOf('.'));
 
   return (
     <Box>
@@ -31,13 +38,36 @@ const File = () => {
           >
             {fileQuery.data.name}
           </Button>
-          <iframe
-            width="100%"
-            height="1000"
-            src={`https://docs.google.com/gview?url=${getUri(
-              fileQuery.data.file
-            )}&embedded=true`}
-          ></iframe>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column'
+            }}
+          >
+            {imageExtensions.includes(fileExtension.toLowerCase()) ? (
+              <Box
+                component="img"
+                sx={{ border: '1px solid black', maxWidth: '800px' }}
+                src={`https://filestoragewebapi-production.up.railway.app${fileQuery.data.file}`}
+              />
+            ) : videoExtensions.includes(fileExtension.toLowerCase()) ? (
+              <Box
+                component="video"
+                sx={{ maxWidth: '800px', border: '1px solid black' }}
+                controls
+                src={`https://filestoragewebapi-production.up.railway.app${fileQuery.data.file}`}
+              />
+            ) : (
+              <iframe
+                width="100%"
+                height="1000"
+                src={`https://docs.google.com/gview?url=${getUri(
+                  fileQuery.data.file
+                )}&embedded=true`}
+              ></iframe>
+            )}
+          </Box>
         </Box>
       )}
     </Box>

@@ -105,7 +105,7 @@ const CreateModuleModal = ({
 
     if (editModule) {
       updateModuleMutation.mutate({
-        moduleId: module?.public_id,
+        moduleId: selectedModule,
         payload: { ...data }
       });
     } else {
