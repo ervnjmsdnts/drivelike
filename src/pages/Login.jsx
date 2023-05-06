@@ -110,7 +110,7 @@ const Login = () => {
         alignItems="center"
       >
         <Typography variant="h2" color="white" fontWeight="bold">
-          Welcome to Math-Eturo
+          Welcome to Math E-turo
         </Typography>
       </Box>
     </Box>
