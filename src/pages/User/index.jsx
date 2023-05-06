@@ -361,10 +361,7 @@ const User = () => {
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <Stack sx={{ mb: 4 }}>
           <Typography sx={{ fontSize: 48, fontWeight: 'bold' }}>
-            Hello,
-          </Typography>
-          <Typography sx={{ fontSize: 48, fontWeight: 'bold' }}>
-            Test User
+            Hello
           </Typography>
         </Stack>
         <Box
@@ -397,7 +394,7 @@ const User = () => {
                     overflowX: 'auto'
                   }}
                 >
-                  {foldersQuery.data.map((folder) => (
+                  {foldersQuery?.data?.map((folder) => (
                     <Button
                       key={folder.id}
                       onClick={() => setSelectedFolder(folder)}

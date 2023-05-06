@@ -82,3 +82,11 @@ export const deleteUser = async (userId) => {
   const response = await request.delete(`/users/${userId}`);
   return response.data;
 };
+
+export const changePassword = async ({ userId, payload }) => {
+  const response = await request.put(
+    `/authentication/change-password/${userId}`,
+    payload
+  );
+  return response.data;
+};
