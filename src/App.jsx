@@ -7,6 +7,7 @@ import NotExist from './pages/NotExist';
 import ProtectedRoute from './components/ProtectedRoute';
 import File from './pages/User/File';
 import Board from './pages/User/Board';
+import About from './pages/User/About';
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem('profile'));
@@ -15,6 +16,7 @@ const App = () => {
       <Route element={<ApplicationLayout />}>
         <Route path="user" element={<ProtectedRoute user={user} />}>
           <Route path="" element={<User />} />
+          <Route path="about" element={<About />} />
           <Route path="board" element={<Board />} />
           <Route path=":fileId" element={<File />} />
         </Route>

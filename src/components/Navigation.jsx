@@ -1,4 +1,9 @@
-import { AccountCircle, FilterFrames, MenuBook } from '@mui/icons-material';
+import {
+  AccountCircle,
+  FilterFrames,
+  MenuBook,
+  Person
+} from '@mui/icons-material';
 import {
   AppBar,
   Box,
@@ -221,6 +226,14 @@ const Navigation = ({ children }) => {
                     <FilterFrames />
                   </ListItemIcon>
                   <ListItemText primary="Board" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate('user/about')}>
+                  <ListItemIcon>
+                    <Person />
+                  </ListItemIcon>
+                  <ListItemText primary="About" />
                 </ListItemButton>
               </ListItem>
             </List>
