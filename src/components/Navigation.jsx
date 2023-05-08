@@ -1,5 +1,6 @@
 import {
   AccountCircle,
+  Bolt,
   FilterFrames,
   MenuBook,
   Person
@@ -24,7 +25,8 @@ import {
   Menu,
   MenuItem,
   Stack,
-  Toolbar
+  Toolbar,
+  Typography
   // alpha,
   // styled
 } from '@mui/material';
@@ -209,7 +211,21 @@ const Navigation = ({ children }) => {
             variant="permanent"
             anchor="left"
           >
-            <Toolbar />
+            <Toolbar>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 1
+                }}
+              >
+                <Bolt color="primary" />
+                <Typography variant="h6" fontWeight="bold">
+                  Math E-turo
+                </Typography>
+              </Box>
+            </Toolbar>
             <Divider />
             <List>
               <ListItem disablePadding>
