@@ -72,7 +72,7 @@ const About = () => {
           </Typography>
           <Social
             Icon={Facebook}
-            name="Facebook"
+            name="Math E-turo"
             href="https://www.facebook.com/profile.php?id=100092136867548&mibextid=ZbWKwL"
           />
           <Social Icon={Email} name="20-60071@g.batstate-u.edu.ph" />
