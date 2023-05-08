@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Phone } from '@mui/icons-material';
+import { Email, Facebook, Instagram, Phone } from '@mui/icons-material';
 import { Avatar, Box, Divider, Link, Stack, Typography } from '@mui/material';
 import Danao from '../../assets/danao.jpg';
 import Bea from '../../assets/bea.jpg';
@@ -66,21 +66,17 @@ const About = () => {
             and understand.
           </Typography>
         </Box>
-        <Stack mt={4} gap={2}>
+        <Stack mt={4} gap={2} alignItems="start">
           <Typography variant="h4" fontWeight="bold">
             Contact Us!
           </Typography>
           <Social
             Icon={Facebook}
             name="Facebook"
-            href="https://www.facebook.com/PUTIII11?mibextid=ZbWKwL"
+            href="https://www.facebook.com/profile.php?id=100092136867548&mibextid=ZbWKwL"
           />
-          <Social
-            Icon={Instagram}
-            name="Instagram"
-            href="https://instagram.com/danielladanao_?igshid=NTc4MTIwNjQ2YQ=="
-          />
-          <Social Icon={Phone} name="09564015271 / 09983142904" />
+          <Social Icon={Email} name="20-60071@g.batstate-u.edu.ph" />
+          <Social Icon={Phone} name="0956-4015-277 / 0977-0148-657" />
         </Stack>
       </Box>
       <Box>
