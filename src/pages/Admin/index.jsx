@@ -139,6 +139,7 @@ const Admin = () => {
       field: 'delete',
       headerName: '',
       disableColumnMenu: true,
+      filterable: false,
       sortable: false,
       renderCell: (params) =>
         user.public_id !== params.row.public_id && (
