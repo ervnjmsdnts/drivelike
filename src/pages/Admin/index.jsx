@@ -89,8 +89,6 @@ const CreateNewUserModal = ({ onClose, open }) => {
 const DeleteUserModal = ({ onClose, open, selectedUser }) => {
   const queryClient = useQueryClient();
 
-  console.log({ selectedUser });
-
   const deleteUserMutation = useMutation(deleteUser, {
     onSuccess: () => queryClient.invalidateQueries('users'),
     onError: () => toast.error('Something went wrong!')
@@ -103,7 +101,7 @@ const DeleteUserModal = ({ onClose, open, selectedUser }) => {
 
   return (
     <Dialog onClose={onClose} open={open}>
-      <DialogTitle>Delete File</DialogTitle>
+      <DialogTitle>Delete User</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Typography>Are you sure you want to delete user? </Typography>
       </DialogContent>
@@ -140,6 +138,8 @@ const Admin = () => {
     {
       field: 'delete',
       headerName: '',
+      disableColumnMenu: true,
+      sortable: false,
       renderCell: (params) =>
         user.public_id !== params.row.public_id && (
           <IconButton
