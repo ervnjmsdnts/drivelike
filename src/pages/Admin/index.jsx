@@ -132,9 +132,10 @@ const Admin = () => {
       headerName: 'ID',
       flex: 1,
       disableColumnMenu: true,
-      sortable: false
+      sortable: false,
+      filterable: false
     },
-    { field: 'email', headerName: 'Email', flex: 1 },
+    { field: 'email', headerName: 'Email', hideable: false, flex: 1 },
     {
       field: 'delete',
       headerName: '',

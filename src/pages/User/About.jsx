@@ -82,7 +82,7 @@ const About = () => {
       <Box>
         <Divider />
         <Typography textAlign="center" py={2}>
-          2023 &copy; BatStateUMalvar SIT Student
+          2023 &copy; BatStateUMalvar CIT Student
         </Typography>
       </Box>
     </Box>
