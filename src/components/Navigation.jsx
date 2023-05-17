@@ -1,12 +1,7 @@
-import {
-  AccountCircle,
-  Bolt,
-  FilterFrames,
-  MenuBook,
-  Person
-} from '@mui/icons-material';
+import { Bolt, FilterFrames, MenuBook, Person } from '@mui/icons-material';
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Dialog,
@@ -15,29 +10,25 @@ import {
   DialogTitle,
   Divider,
   Drawer,
-  IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  // InputBase,
   Menu,
   MenuItem,
   Stack,
   Toolbar,
   Typography
-  // alpha,
-  // styled
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Input from './Input';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from 'react-query';
-import { changePassword } from '../actions';
+import { useMutation, useQuery } from 'react-query';
+import { changePassword, getProfile, uploadProfile } from '../actions';
 import { toast } from 'react-toastify';
 
 const drawerWidth = 240;
@@ -122,6 +113,7 @@ const ChangePasswordModal = ({ onClose, open }) => {
 const Navigation = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [profile, setProfile] = useState('');
   const { pathname } = useLocation();
 
   const isAdmin = pathname.includes('admin');
@@ -131,6 +123,10 @@ const Navigation = ({ children }) => {
   };
 
   const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem('profile'));
+
+  const userProfileQuery = useQuery('userProfile', () => getProfile(user.id));
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -142,6 +138,34 @@ const Navigation = ({ children }) => {
     localStorage.removeItem('profile');
     window.location.href = '/';
   };
+
+  const uploadProfileMutation = useMutation(uploadProfile, {
+    onSuccess: () => window.location.reload(),
+    onError: () => toast.error('Something went wrong!')
+  });
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      console.log('No file selected');
+      return;
+    }
+    const payload = {
+      user_id: user.id,
+      desc: 'desc',
+      profile_picture: file.name,
+      modified_by: user.email
+    };
+
+    uploadProfileMutation.mutate({ payload, file });
+  };
+
+  useEffect(() => {
+    if (!userProfileQuery.isLoading) {
+      setProfile(userProfileQuery.data?.[0]?.profile_picture);
+    }
+  }, [userProfileQuery.isLoading, userProfileQuery.data]);
+
   return (
     <>
       <ChangePasswordModal onClose={() => setOpen(false)} open={open} />
@@ -150,6 +174,7 @@ const Navigation = ({ children }) => {
           elevation={0}
           position="fixed"
           sx={{
+            bgcolor: 'white',
             width: isAdmin ? '100%' : `calc(100% - ${drawerWidth}px)`,
             ml: `${drawerWidth}px`
           }}
@@ -164,16 +189,11 @@ const Navigation = ({ children }) => {
               }}
             >
               <div>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
+                <Avatar
+                  sx={{ cursor: 'pointer', height: 32, width: 32 }}
                   onClick={handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
+                  src={`https://filestoragewebapi-production.up.railway.app${profile}`}
+                />
                 <Menu
                   id="menu-appbar"
                   anchorEl={anchorEl}
@@ -193,6 +213,14 @@ const Navigation = ({ children }) => {
                     Change Password
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  {!userProfileQuery.data?.length && (
+                    <MenuItem>
+                      <label>
+                        Add Profile Picture
+                        <input type="file" hidden onChange={handleFileChange} />
+                      </label>
+                    </MenuItem>
+                  )}
                 </Menu>
               </div>
             </Box>

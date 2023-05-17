@@ -46,12 +46,28 @@ export const getModule = async (moduleId) => {
 };
 
 export const insertFile = async ({ payload = {}, file }) => {
-  console.log('This is from actions: ', file);
   const formData = new FormData();
   formData.append('file', file);
   formData.append('payload', JSON.stringify(payload));
 
   const response = await request.post('/files/insert-file', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
+
+  return response.data;
+};
+
+export const getProfile = async (userId) => {
+  const response = await request.get(`/users/profile-picture/${userId}`);
+  return response.data;
+};
+
+export const uploadProfile = async ({ payload = {}, file }) => {
+  const formData = new FormData();
+  formData.append('profile_picture', file);
+  formData.append('payload', JSON.stringify(payload));
+
+  const response = await request.post('/users/upload-picture', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   });
 
@@ -70,6 +86,21 @@ export const getFile = async (fileId) => {
 
 export const updateModule = async ({ moduleId, payload = {} }) => {
   const response = await request.put(`/modules/${moduleId}`, payload);
+  return response.data;
+};
+
+export const updateFolder = async ({ folderId, payload = {} }) => {
+  const response = await request.put(`/folder/${folderId}`, payload);
+  return response.data;
+};
+
+export const deleteFolder = async (folderId) => {
+  const response = await request.delete(`/folder/${folderId}`);
+  return response.data;
+};
+
+export const deleteModule = async (moduleId) => {
+  const response = await request.delete(`/modules/${moduleId}`);
   return response.data;
 };
 

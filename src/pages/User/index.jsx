@@ -225,7 +225,6 @@ const DeleteFileModal = ({ onClose, open, selectedFile, files }) => {
     </Dialog>
   );
 };
-
 const InsertFileModal = ({ onClose, open, moduleId }) => {
   const [file, setFile] = useState(null);
 
