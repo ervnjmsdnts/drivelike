@@ -1,4 +1,4 @@
-import { Email, Facebook, Instagram, Phone } from '@mui/icons-material';
+import { Email, Facebook, Phone } from '@mui/icons-material';
 import { Avatar, Box, Divider, Link, Stack, Typography } from '@mui/material';
 import Danao from '../../assets/danao.jpg';
 import Bea from '../../assets/bea.jpg';
@@ -8,7 +8,7 @@ import Manimtim from '../../assets/manimtim.jpg';
 const Social = ({ name, Icon, href }) => {
   return (
     <Link href={href} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-      <Icon fontSize="large" />
+      <Icon fontSize="small" />
       <Typography>{name}</Typography>
     </Link>
   );
@@ -19,14 +19,13 @@ const Researcher = ({ name, src }) => {
     <Box
       sx={{
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
-        gap: 2
+        gap: 4
       }}
     >
       <Avatar
         src={src}
-        sx={{ width: 150, height: 150, border: '1px solid gray' }}
+        sx={{ width: 100, height: 100, border: '1px solid gray' }}
       />
       <Typography variant="h6">{name}</Typography>
     </Box>
@@ -35,18 +34,33 @@ const Researcher = ({ name, src }) => {
 
 const About = () => {
   return (
-    <Box sx={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
-      <Box sx={{ flexGrow: 1 }}>
-        <Typography variant="h4">We are the</Typography>
-        <Typography variant="h3" fontWeight="bold">
-          Researchers!
-        </Typography>
+    <Box position="relative" height="100%">
+      <Box sx={{ display: 'grid', gridTemplateColumns: '30% auto', gap: 4 }}>
+        <Box>
+          <Typography variant="h5" fontWeight="bold">
+            Meet the Researchers
+          </Typography>
+          <Typography variant="h6" color="gray">
+            We are 3rd Year college students from Batangas State
+            University-Malvar Campus, taking Bachelor of Industrial Technology
+            Major in Computer Technology. This system will serve as Teaching
+            Demo Material that aims to make mathematics subject easy to learn
+            and understand.
+          </Typography>
+          <Stack mt={4} gap={2} alignItems="start">
+            <Social
+              Icon={Facebook}
+              name="Math E-turo"
+              href="https://www.facebook.com/profile.php?id=100092136867548&mibextid=ZbWKwL"
+            />
+            <Social Icon={Email} name="20-60071@g.batstate-u.edu.ph" />
+            <Social Icon={Phone} name="0956-4015-277 / 0977-0148-657" />
+          </Stack>
+        </Box>
         <Box
           sx={{
-            mt: 4,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-evenly'
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)'
           }}
         >
           <Researcher name="Danao, Daniella P." src={Danao} />
@@ -54,32 +68,8 @@ const About = () => {
           <Researcher name="Manalo, John Ryan D." src={Manalo} />
           <Researcher name="Manimtim, Rael P." src={Manimtim} />
         </Box>
-        <Box mt={4}>
-          <Typography variant="h4" fontWeight="bold">
-            Introduction
-          </Typography>
-          <Typography variant="h5" sx={{ textIndent: 64 }}>
-            We are 3rd Year college students from Batangas State
-            University-Malvar Campus, taking Bachelor of Industrial Technology
-            Major in Computer Technology. This system will serve as Teaching
-            Demo Material that aims to make mathematics subject easy to learn
-            and understand.
-          </Typography>
-        </Box>
-        <Stack mt={4} gap={2} alignItems="start">
-          <Typography variant="h4" fontWeight="bold">
-            Contact Us!
-          </Typography>
-          <Social
-            Icon={Facebook}
-            name="Math E-turo"
-            href="https://www.facebook.com/profile.php?id=100092136867548&mibextid=ZbWKwL"
-          />
-          <Social Icon={Email} name="20-60071@g.batstate-u.edu.ph" />
-          <Social Icon={Phone} name="0956-4015-277 / 0977-0148-657" />
-        </Stack>
       </Box>
-      <Box>
+      <Box sx={{ position: 'absolute', bottom: 0, width: '100%' }}>
         <Divider />
         <Typography textAlign="center" py={2}>
           2023 &copy; BatStateUMalvar CIT Student

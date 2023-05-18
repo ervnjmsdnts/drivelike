@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
 import { handleKeyDown } from '../helpers';
+import MainLogin from '/mainlogin.jpg';
 
 const loginSchema = z.object({
   username: z
@@ -74,8 +75,13 @@ const Login = () => {
           }}
         >
           <Stack gap="8px" width="100%">
-            <Typography fontWeight="bold" mb="16px" variant="h4">
-              Login
+            <Typography
+              fontWeight="bold"
+              textAlign="center"
+              mb="16px"
+              variant="h4"
+            >
+              Welcome to Math e-Turo
             </Typography>
             <Box
               display="flex"
@@ -120,12 +126,14 @@ const Login = () => {
         display="flex"
         width="100%"
         justifyContent="center"
-        backgroundColor="primary.main"
         alignItems="center"
       >
-        <Typography variant="h2" color="white" fontWeight="bold">
-          Welcome to Math E-turo
-        </Typography>
+        <Box
+          component="img"
+          src={MainLogin}
+          alt="MainLogin"
+          sx={{ width: 1000 }}
+        />
       </Box>
     </Box>
   );

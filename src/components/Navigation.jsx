@@ -258,11 +258,14 @@ const Navigation = ({ children }) => {
         {!isAdmin && (
           <Drawer
             sx={{
+              color: 'white',
               width: drawerWidth,
               flexShrink: 0,
+              backgroundImage: 'url(/navbg.jpg)',
               '& .MuiDrawer-paper': {
                 width: drawerWidth,
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                backgroundImage: 'url(/navbg.jpg)'
               }
             }}
             variant="permanent"
@@ -278,17 +281,17 @@ const Navigation = ({ children }) => {
                 }}
               >
                 <Bolt color="primary" />
-                <Typography variant="h6" fontWeight="bold">
+                <Typography variant="h6" fontWeight="bold" color="white">
                   Math E-turo
                 </Typography>
               </Box>
             </Toolbar>
             <Divider />
-            <List>
+            <List sx={{ color: 'white' }}>
               <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate('user')}>
                   <ListItemIcon>
-                    <MenuBook />
+                    <MenuBook sx={{ color: 'white' }} />
                   </ListItemIcon>
                   <ListItemText primary="Materials" />
                 </ListItemButton>
@@ -296,7 +299,7 @@ const Navigation = ({ children }) => {
               <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate('user/board')}>
                   <ListItemIcon>
-                    <FilterFrames />
+                    <FilterFrames sx={{ color: 'white' }} />
                   </ListItemIcon>
                   <ListItemText primary="Board" />
                 </ListItemButton>
@@ -304,7 +307,7 @@ const Navigation = ({ children }) => {
               <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate('user/about')}>
                   <ListItemIcon>
-                    <Person />
+                    <Person sx={{ color: 'white' }} />
                   </ListItemIcon>
                   <ListItemText primary="About" />
                 </ListItemButton>
