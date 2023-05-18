@@ -23,6 +23,7 @@ import Loading from '../../components/Loading';
 import moment from 'moment';
 import { blue } from '@mui/material/colors';
 import { toast } from 'react-toastify';
+import { handleKeyDown } from '../../helpers';
 
 const DeleteFileModal = ({ open, onClose, file }) => {
   const queryClient = useQueryClient();
@@ -40,7 +41,11 @@ const DeleteFileModal = ({ open, onClose, file }) => {
   };
 
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      onKeyDown={(e) => handleKeyDown(e, onSubmit)}
+    >
       <DialogTitle>Delete File</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Typography>Are you sure you want to delete {file?.name}</Typography>

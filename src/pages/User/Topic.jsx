@@ -28,6 +28,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { handleKeyDown } from '../../helpers';
 
 const createFolderSchema = z.object({
   name: z.string().nonempty({ message: 'Field is required' })
@@ -37,7 +38,6 @@ const EditTopicModal = ({ open, onClose, topic }) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
     setValue
   } = useForm({ resolver: zodResolver(createFolderSchema) });
@@ -49,7 +49,6 @@ const EditTopicModal = ({ open, onClose, topic }) => {
   const editFolderMutation = useMutation(updateFolder, {
     onSuccess: () => {
       queryClient.invalidateQueries('folders');
-      reset({ name: '' });
     },
     onError: () => {
       toast.error('Something went wrong!');
@@ -73,7 +72,11 @@ const EditTopicModal = ({ open, onClose, topic }) => {
   }, [topic.name]);
 
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
+    >
       <DialogTitle>Edit Topic</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Box sx={{ pt: 1 }}>
@@ -125,7 +128,11 @@ const CreateTopicModal = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
+    >
       <DialogTitle>New Topic</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Box sx={{ pt: 1 }}>
@@ -159,7 +166,11 @@ const DeleteTopicModal = ({ open, onClose, topic }) => {
   };
 
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      onKeyDown={(e) => handleKeyDown(e, onSubmit)}
+    >
       <DialogTitle>Delete File</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Typography>Are you sure you want to delete {topic?.name}</Typography>

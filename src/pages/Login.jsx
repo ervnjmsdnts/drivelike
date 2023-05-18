@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
+import { handleKeyDown } from '../helpers';
 
 const loginSchema = z.object({
   username: z
@@ -49,7 +50,10 @@ const Login = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', height: '100vh' }}>
+    <Box
+      sx={{ display: 'flex', height: '100vh' }}
+      onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
+    >
       <Box
         sx={{
           display: 'flex',

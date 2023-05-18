@@ -41,6 +41,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { handleKeyDown } from '../../helpers';
 
 const images = ['/math2.jpg', '/math3.jpg', '/math4.jpg'];
 
@@ -82,7 +83,11 @@ const CreateModuleModal = ({ open, onClose, folderId }) => {
     onClose();
   };
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
+    >
       <DialogTitle>New Module</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Box sx={{ pt: 1 }}>
@@ -106,7 +111,6 @@ const EditModuleModal = ({ open, onClose, module }) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
     setValue
   } = useForm({ resolver: zodResolver(createModuleSchema) });
@@ -118,7 +122,6 @@ const EditModuleModal = ({ open, onClose, module }) => {
   const editModuleMutation = useMutation(updateModule, {
     onSuccess: () => {
       queryClient.invalidateQueries('modules');
-      reset({ name: '' });
     },
     onError: () => {
       toast.error('Something went wrong!');
@@ -142,7 +145,11 @@ const EditModuleModal = ({ open, onClose, module }) => {
   }, [module.name]);
 
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
+    >
       <DialogTitle>Edit Module</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Box sx={{ pt: 1 }}>
@@ -176,7 +183,11 @@ const DeleteModuleModal = ({ open, onClose, module }) => {
   };
 
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      onKeyDown={(e) => handleKeyDown(e, onSubmit)}
+    >
       <DialogTitle>Delete File</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Typography>Are you sure you want to delete {module?.name}</Typography>

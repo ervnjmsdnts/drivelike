@@ -30,6 +30,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from 'react-query';
 import { changePassword, getProfile, uploadProfile } from '../actions';
 import { toast } from 'react-toastify';
+import { handleKeyDown } from '../helpers';
 
 const drawerWidth = 240;
 
@@ -42,13 +43,42 @@ const changePasswordSchema = z
     new_password: z
       .string()
       .nonempty({ message: 'Field is required' })
-      .min(6, 'Password must be atleast 6 characters'),
+      .min(6, 'Password must be atleast 6 characters')
+      .regex(
+        /^(?=.*[A-Z])(?=.*\d).*$/,
+        'Password must contain at least one uppercase letter and one number'
+      ),
     confirm_password: z.string().nonempty('Field is required')
   })
   .refine((data) => data.new_password === data.confirm_password, {
     message: "Passwords don't match",
     path: ['confirm_password']
   });
+
+const LogoutModal = ({ onClose, open }) => {
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('profile');
+    window.location.href = '/';
+  };
+
+  return (
+    <Dialog
+      onClose={onClose}
+      open={open}
+      onKeyDown={(e) => handleKeyDown(e, handleLogout)}
+    >
+      <DialogTitle>Logout</DialogTitle>
+      <DialogContent sx={{ minWidth: '400px' }}>
+        <Typography>Are you sure you want to logout?</Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleLogout}>Log out</Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 const ChangePasswordModal = ({ onClose, open }) => {
   const {
@@ -75,7 +105,11 @@ const ChangePasswordModal = ({ onClose, open }) => {
   };
 
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
+    >
       <DialogTitle>New Password</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Stack sx={{ pt: 1 }} gap={2}>
@@ -112,6 +146,7 @@ const ChangePasswordModal = ({ onClose, open }) => {
 
 const Navigation = ({ children }) => {
   const [open, setOpen] = useState(false);
+  const [logout, setLogout] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [profile, setProfile] = useState('');
   const { pathname } = useLocation();
@@ -130,13 +165,6 @@ const Navigation = ({ children }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleLogout = () => {
-    setAnchorEl(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('profile');
-    window.location.href = '/';
   };
 
   const uploadProfileMutation = useMutation(uploadProfile, {
@@ -168,6 +196,7 @@ const Navigation = ({ children }) => {
 
   return (
     <>
+      <LogoutModal open={logout} onClose={() => setLogout(false)} />
       <ChangePasswordModal onClose={() => setOpen(false)} open={open} />
       <Box sx={{ display: 'flex' }}>
         <AppBar
@@ -212,7 +241,7 @@ const Navigation = ({ children }) => {
                   <MenuItem onClick={() => setOpen(true)}>
                     Change Password
                   </MenuItem>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  <MenuItem onClick={() => setLogout(true)}>Logout</MenuItem>
                   {!userProfileQuery.data?.length && (
                     <MenuItem>
                       <label>

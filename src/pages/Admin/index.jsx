@@ -18,6 +18,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
 import { Typography } from 'antd';
+import { handleKeyDown } from '../../helpers';
 
 const createUserSchema = z.object({
   email: z
@@ -28,6 +29,10 @@ const createUserSchema = z.object({
     .string()
     .nonempty({ message: 'Field is required' })
     .min(6, { message: 'Password must be atleast 6 characters' })
+    .regex(
+      /^(?=.*[A-Z])(?=.*\d).*$/,
+      'Password must contain at least one uppercase letter and one number'
+    )
 });
 
 const CreateNewUserModal = ({ onClose, open }) => {
@@ -57,7 +62,11 @@ const CreateNewUserModal = ({ onClose, open }) => {
   };
 
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
+    >
       <DialogTitle>New User</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Box
