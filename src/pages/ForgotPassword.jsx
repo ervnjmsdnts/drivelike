@@ -9,6 +9,7 @@ import { useMutation } from 'react-query';
 import { forgotPassword } from '../actions';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { handleKeyDown } from '../helpers';
 
 const forgotPasswordSchema = z.object({
   username: z
@@ -49,7 +50,12 @@ const ForgotPassword = () => {
           No Worries, we&apos;ll send you reset instructions
         </Typography>
       </Box>
-      <Input label="Email" errors={errors.username} {...register('username')} />
+      <Input
+        label="Email"
+        errors={errors.username}
+        {...register('username')}
+        onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
+      />
       <Button
         variant="contained"
         fullWidth
