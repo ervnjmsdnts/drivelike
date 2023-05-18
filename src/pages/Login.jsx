@@ -1,4 +1,5 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Link, Stack, Typography } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 import Input from '../components/Input';
 import { useMutation } from 'react-query';
 import { login } from '../actions';
@@ -98,6 +99,15 @@ const Login = () => {
               >
                 Login
               </Button>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+              <Link
+                component={RouterLink}
+                underline="none"
+                to="forgot-password"
+              >
+                Forgot your password?
+              </Link>
             </Box>
           </Stack>
         </Box>

@@ -121,3 +121,11 @@ export const changePassword = async ({ userId, payload }) => {
   );
   return response.data;
 };
+
+export const forgotPassword = async (payload = {}) => {
+  const response = await request.post(
+    `/authentication/forgot-password`,
+    payload
+  );
+  return response.data;
+};
