@@ -1,4 +1,4 @@
-import { Bolt, FilterFrames, MenuBook, Person } from '@mui/icons-material';
+import { Bolt, FilterFrames, MenuBook, People, Person } from '@mui/icons-material';
 import {
   AppBar,
   Avatar,
@@ -204,7 +204,7 @@ const Navigation = ({ children }) => {
           position="fixed"
           sx={{
             bgcolor: 'white',
-            width: isAdmin ? '100%' : `calc(100% - ${drawerWidth}px)`,
+            width: `calc(100% - ${drawerWidth}px)`,
             ml: `${drawerWidth}px`
           }}
         >
@@ -255,66 +255,87 @@ const Navigation = ({ children }) => {
             </Box>
           </Toolbar>
         </AppBar>
-        {!isAdmin && (
-          <Drawer
-            sx={{
-              color: 'white',
+        <Drawer
+          sx={{
+            color: 'white',
+            width: drawerWidth,
+            flexShrink: 0,
+            backgroundImage: 'url(/navbg.jpg)',
+            '& .MuiDrawer-paper': {
               width: drawerWidth,
-              flexShrink: 0,
-              backgroundImage: 'url(/navbg.jpg)',
-              '& .MuiDrawer-paper': {
-                width: drawerWidth,
-                boxSizing: 'border-box',
-                backgroundImage: 'url(/navbg.jpg)'
-              }
-            }}
-            variant="permanent"
-            anchor="left"
-          >
-            <Toolbar>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 1
-                }}
-              >
-                <Bolt color="primary" />
-                <Typography variant="h6" fontWeight="bold" color="white">
-                  Math E-turo
-                </Typography>
-              </Box>
-            </Toolbar>
-            <Divider />
-            <List sx={{ color: 'white' }}>
-              <ListItem disablePadding>
-                <ListItemButton onClick={() => navigate('user')}>
-                  <ListItemIcon>
-                    <MenuBook sx={{ color: 'white' }} />
-                  </ListItemIcon>
-                  <ListItemText primary="Materials" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton onClick={() => navigate('user/board')}>
-                  <ListItemIcon>
-                    <FilterFrames sx={{ color: 'white' }} />
-                  </ListItemIcon>
-                  <ListItemText primary="Board" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton onClick={() => navigate('user/about')}>
-                  <ListItemIcon>
-                    <Person sx={{ color: 'white' }} />
-                  </ListItemIcon>
-                  <ListItemText primary="About" />
-                </ListItemButton>
-              </ListItem>
-            </List>
-          </Drawer>
-        )}
+              boxSizing: 'border-box',
+              backgroundImage: 'url(/navbg.jpg)'
+            }
+          }}
+          variant="permanent"
+          anchor="left"
+        >
+          <Toolbar>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 1
+              }}
+            >
+              <Bolt color="primary" />
+              <Typography variant="h6" fontWeight="bold" color="white">
+                Math E-turo
+              </Typography>
+            </Box>
+          </Toolbar>
+          <Divider />
+          <List sx={{ color: 'white' }}>
+            {isAdmin ? (
+              <>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={() => navigate('admin')}>
+                    <ListItemIcon>
+                      <People sx={{ color: 'white' }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Users" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={() => navigate('admin/materials')}>
+                    <ListItemIcon>
+                      <MenuBook sx={{ color: 'white' }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Materials" />
+                  </ListItemButton>
+                </ListItem>
+              </>
+            ) : (
+              <>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={() => navigate('user')}>
+                    <ListItemIcon>
+                      <MenuBook sx={{ color: 'white' }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Materials" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={() => navigate('user/board')}>
+                    <ListItemIcon>
+                      <FilterFrames sx={{ color: 'white' }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Board" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={() => navigate('user/about')}>
+                    <ListItemIcon>
+                      <Person sx={{ color: 'white' }} />
+                    </ListItemIcon>
+                    <ListItemText primary="About" />
+                  </ListItemButton>
+                </ListItem>
+              </>
+            )}
+          </List>
+        </Drawer>
         <Box
           component="main"
           sx={{

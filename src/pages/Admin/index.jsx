@@ -2,6 +2,7 @@ import { Delete, PersonAddAlt1 } from '@mui/icons-material';
 import {
   Box,
   Button,
+  Container,
   Dialog,
   DialogActions,
   DialogContent,
@@ -176,7 +177,7 @@ const Admin = () => {
         onClose={() => setOpenCreateUser(false)}
         open={openCreateUser}
       />
-      <Box>
+      <Container>
         <Box sx={{ display: 'flex', justifyContent: 'end' }}>
           <Button
             variant="outlined"
@@ -196,7 +197,7 @@ const Admin = () => {
             loading={allUsersQuery.isLoading}
           />
         </Box>
-      </Box>
+      </Container>
     </>
   );
 };

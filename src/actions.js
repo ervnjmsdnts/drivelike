@@ -104,6 +104,11 @@ export const deleteModule = async (moduleId) => {
   return response.data;
 };
 
+export const deleteQuiz = async (quizId) => {
+  const response = await request.delete(`/quiz/delete-quiz/${quizId}`);
+  return response.data;
+};
+
 export const deleteFile = async (fileId) => {
   const response = await request.delete(`/files/${fileId}`);
   return response.data;
@@ -127,5 +132,25 @@ export const forgotPassword = async (payload = {}) => {
     `/authentication/forgot-password`,
     payload
   );
+  return response.data;
+};
+
+export const createQuiz = async (payload = {}) => {
+  const response = await request.post('/quiz/create-quiz', payload);
+  return response.data;
+};
+
+export const getQuizzes = async () => {
+  const response = await request.get('/quiz/get-quiz-lists');
+  return response.data;
+};
+
+export const getQuiz = async (quizId) => {
+  const response = await request.get(`/quiz/get-specific-quiz/${quizId}`);
+  return response.data;
+};
+
+export const updateQuiz = async ({ quizId, payload = {} }) => {
+  const response = await request.put(`/quiz/edit-quiz/${quizId}`, payload);
   return response.data;
 };

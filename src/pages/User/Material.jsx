@@ -15,12 +15,14 @@ import {
   Stack,
   Typography
 } from '@mui/material';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueries, useQuery, useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   createModule,
   deleteModule,
+  deleteQuiz,
   getFolder,
+  getQuizzes,
   updateModule
 } from '../../actions';
 import { getModules } from '../../actions';
@@ -169,16 +171,25 @@ const EditModuleModal = ({ open, onClose, module }) => {
   );
 };
 
-const DeleteModuleModal = ({ open, onClose, module }) => {
+const DeleteModuleModal = ({ open, onClose, module, type }) => {
   const queryClient = useQueryClient();
 
-  const deleteTopicMutation = useMutation(deleteModule, {
+  const deleteModuleMutation = useMutation(deleteModule, {
     onSuccess: () => queryClient.invalidateQueries('modules'),
     onError: () => toast.error('Something went wrong!')
   });
 
+  const deleteQuizMutation = useMutation(deleteQuiz, {
+    onSuccess: () => queryClient.invalidateQueries('quizzes'),
+    onError: () => toast.error('Something went wrong!')
+  });
+
   const onSubmit = () => {
-    deleteTopicMutation.mutate(module.materialId);
+    if (type === 'MODULE') {
+      deleteModuleMutation.mutate(module.materialId);
+    } else {
+      deleteQuizMutation.mutate(module.materialId);
+    }
     onClose();
   };
 
@@ -214,6 +225,11 @@ const MaterialItem = ({ type, name, dateCreated, materialId, folderId }) => {
 
   const navigate = useNavigate();
 
+  const handleEdit = () => {
+    if (type === 'MODULE') return setOpenEdit(true);
+    return navigate(`edit-quiz/${materialId}`);
+  };
+
   return (
     <>
       <EditModuleModal
@@ -225,6 +241,7 @@ const MaterialItem = ({ type, name, dateCreated, materialId, folderId }) => {
         open={openDelete}
         onClose={() => setOpenDelete(false)}
         module={{ name, materialId }}
+        type={type}
       />
       <Box sx={{ position: 'relative' }}>
         <Box
@@ -276,7 +293,7 @@ const MaterialItem = ({ type, name, dateCreated, materialId, folderId }) => {
           }}
           onClose={handleCloseMenu}
         >
-          <MenuItem onClick={() => setOpenEdit(true)}>
+          <MenuItem onClick={handleEdit}>
             <ListItemIcon>
               <Create />
             </ListItemIcon>
@@ -310,16 +327,40 @@ const Material = () => {
 
   const { folderId } = useParams();
   const folderQuery = useQuery(['folder', folderId], () => getFolder(folderId));
-  const modulesQuery = useQuery('modules', getModules, {
-    select: (data) => data.filter((m) => m.folder_id.public_id === folderId)
+
+  const mergedData = useQueries([
+    {
+      queryKey: 'modules',
+      queryFn: getModules,
+      select: (data) => data.filter((m) => m.folder_id.public_id === folderId)
+    },
+    {
+      queryKey: 'quizzes',
+      queryFn: getQuizzes,
+      select: (data) => data.filter((q) => q.folder_id.public_id === folderId)
+    }
+  ]);
+
+  const mergedArray = mergedData.reduce((acc, curr) => {
+    if (curr.data) {
+      return acc.concat(curr.data);
+    }
+    return acc;
+  }, []);
+
+  mergedArray.sort((a, b) => {
+    const dateA = new Date(a.date_created);
+    const dateB = new Date(b.date_created);
+    return dateA - dateB;
   });
 
-  const isLoading = useMemo(
-    () => folderQuery.isLoading || modulesQuery.isLoading,
-    [folderQuery.isLoading, modulesQuery.isLoading]
-  );
+  const [modulesQuery, quizQuery] = mergedData;
 
-  console.log(folderQuery.data);
+  const isLoading = useMemo(
+    () =>
+      folderQuery.isLoading || modulesQuery.isLoading || quizQuery.isLoading,
+    [folderQuery.isLoading, modulesQuery.isLoading, quizQuery.isLoading]
+  );
 
   return (
     <>
@@ -393,13 +434,13 @@ const Material = () => {
               </MenuItem>
             </Menu>
             <Stack sx={{ gap: 2 }}>
-              {modulesQuery.data.map((module) => (
+              {mergedArray.map((arr) => (
                 <MaterialItem
-                  key={module.public_id}
-                  name={module.name}
-                  type={module.type}
-                  dateCreated={module.date_created}
-                  materialId={module.public_id}
+                  key={arr.public_id}
+                  name={arr.name}
+                  type={arr.type}
+                  dateCreated={arr.date_created}
+                  materialId={arr.public_id}
                   folderId={folderQuery.data.id}
                 />
               ))}
