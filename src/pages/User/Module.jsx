@@ -81,6 +81,7 @@ const ModuleItem = ({ name, fileId, setSelectedFile, setOpen }) => {
           borderRadius: 2,
           boxShadow: 2,
           p: 2,
+          height: '100%',
           ':hover': { bgcolor: blue[50], cursor: 'pointer' }
         }}
         onClick={() => navigate(fileId)}
