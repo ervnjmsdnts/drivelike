@@ -1,10 +1,25 @@
-import { Box, Container, Radio, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Radio,
+  Stack,
+  Typography
+} from '@mui/material';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { getQuiz } from '../../actions';
 import Loading from '../../components/Loading';
+import { useState } from 'react';
 
-const Question = ({ text, index, type, options, correct_option }) => {
+const Question = ({
+  text,
+  index,
+  type,
+  options,
+  correct_option,
+  showAnswer
+}) => {
   return (
     <Box
       sx={{
@@ -28,7 +43,7 @@ const Question = ({ text, index, type, options, correct_option }) => {
         <Box>
           {options.map((option, index) => (
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
-              <Radio checked={index === correct_option} />
+              <Radio checked={showAnswer && index === correct_option} />
               <Typography>{option}</Typography>
             </Box>
           ))}
@@ -39,18 +54,26 @@ const Question = ({ text, index, type, options, correct_option }) => {
 };
 
 const Quiz = () => {
+  const [showAnswer, setShowAnswer] = useState(false);
   const { quizId } = useParams();
 
   const quizQuery = useQuery(['quiz', quizId], () => getQuiz(quizId));
-
-  console.log(quizQuery.data);
 
   return (
     <Container maxWidth="xl">
       {quizQuery.isLoading ? (
         <Loading />
       ) : (
-        <>
+        <Box>
+          <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-end' }}>
+            <Button
+              variant="contained"
+              sx={{ color: 'white' }}
+              onClick={() => setShowAnswer((prev) => !prev)}
+            >
+              {showAnswer ? 'Hide All Answers' : 'Show All Answers'}
+            </Button>
+          </Box>
           <Stack gap={2}>
             <Typography variant="h6">
               <strong>Title:</strong> {quizQuery.data?.name}
@@ -64,10 +87,15 @@ const Quiz = () => {
               Questions
             </Typography>
             {quizQuery.data?.questions.map((q, index) => (
-              <Question key={index} {...q} index={index} />
+              <Question
+                key={index}
+                {...q}
+                index={index}
+                showAnswer={showAnswer}
+              />
             ))}
           </Stack>
-        </>
+        </Box>
       )}
     </Container>
   );
