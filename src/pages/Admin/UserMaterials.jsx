@@ -10,9 +10,9 @@ import {
 import { useQuery } from 'react-query';
 import { getFiles } from '../../actions';
 import Loading from '../../components/Loading';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { blue } from '@mui/material/colors';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ModuleItem = ({ name, fileId }) => {
   const navigate = useNavigate();
@@ -40,6 +40,14 @@ const ModuleItem = ({ name, fileId }) => {
 const UserMaterials = () => {
   const filesQuery = useQuery('files', getFiles);
   const [filterEmail, setFilterEmail] = useState('all');
+
+  const [searchparams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchparams.get('email')) {
+      setFilterEmail(searchparams.get('email'));
+    }
+  }, [searchparams.get('email')]);
 
   const uniqueEmailsAndFiles = {};
   if (filesQuery.isSuccess) {

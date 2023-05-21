@@ -154,3 +154,29 @@ export const updateQuiz = async ({ quizId, payload = {} }) => {
   const response = await request.put(`/quiz/edit-quiz/${quizId}`, payload);
   return response.data;
 };
+
+export const insertComment = async ({ commentId, payload = {} }) => {
+  const response = await request.post(
+    `/files/insert-comment/${commentId}`,
+    payload
+  );
+  return response.data;
+};
+
+export const getComments = async (commentId) => {
+  const response = await request.get(`/files/get-comment-lists/${commentId}`);
+  return response.data;
+};
+
+export const deleteComment = async (commentId) => {
+  const response = await request.delete(`/files/delete-comment/${commentId}`);
+  return response.data;
+};
+
+export const updateComment = async ({ commentId, fileId, payload = {} }) => {
+  const response = await request.put(
+    `/files/edit-comment/${fileId}/${commentId}`,
+    payload
+  );
+  return response.data;
+};

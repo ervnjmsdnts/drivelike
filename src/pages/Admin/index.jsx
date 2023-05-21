@@ -20,6 +20,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
 import { Typography } from 'antd';
 import { handleKeyDown } from '../../helpers';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 const createUserSchema = z.object({
   email: z
@@ -136,6 +137,8 @@ const Admin = () => {
 
   const user = JSON.parse(localStorage.getItem('profile'));
 
+  const navigate = useNavigate();
+
   const columns = [
     {
       field: 'public_id',
@@ -195,6 +198,14 @@ const Admin = () => {
             columns={columns}
             autoHeight
             loading={allUsersQuery.isLoading}
+            onRowDoubleClick={(params) =>
+              navigate({
+                pathname: 'materials',
+                search: createSearchParams({
+                  email: params.row.email
+                }).toString()
+              })
+            }
           />
         </Box>
       </Container>

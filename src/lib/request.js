@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const request = axios.create({
-  baseURL: 'https://filestoragewebapi-production.up.railway.app/api/v1'
+  baseURL: 'https://math-eturo.up.railway.app/api/v1'
   // baseURL: 'http://localhost:8000/api/v1'
 });
 
