@@ -34,8 +34,10 @@ const loginSchema = z.object({
     .string()
     .nonempty({ message: 'Field is required' })
     .email({ message: 'Must be a valid email' }),
-  password: z.string().nonempty({ message: 'Field is required' })
-  // .min(6, { message: 'Password must be atleast 6 characters' })
+  password: z
+    .string()
+    .nonempty({ message: 'Field is required' })
+    .min(6, { message: 'Password must be atleast 6 characters' })
 });
 
 const Login = () => {
