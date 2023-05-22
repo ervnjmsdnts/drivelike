@@ -7,10 +7,11 @@ import {
   Typography
 } from '@mui/material';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getQuiz } from '../../actions';
 import Loading from '../../components/Loading';
 import { useState } from 'react';
+import { ArrowBack } from '@mui/icons-material';
 
 const Question = ({
   text,
@@ -59,13 +60,30 @@ const Quiz = () => {
 
   const quizQuery = useQuery(['quiz', quizId], () => getQuiz(quizId));
 
+  const navigate = useNavigate();
+
   return (
     <Container maxWidth="xl">
       {quizQuery.isLoading ? (
         <Loading />
       ) : (
         <Box>
-          <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-end' }}>
+          <Box
+            sx={{
+              mb: 2,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <Button
+              startIcon={<ArrowBack />}
+              sx={{ mb: 1, fontWeight: 'bold' }}
+              size="large"
+              onClick={() => navigate(-1)}
+            >
+              {quizQuery.data.name}
+            </Button>
             <Button
               variant="contained"
               sx={{ color: 'white' }}

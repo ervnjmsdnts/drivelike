@@ -1,4 +1,4 @@
-import { Delete, FileUpload, MoreVert } from '@mui/icons-material';
+import { ArrowBack, Delete, FileUpload, MoreVert } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -169,6 +169,8 @@ const Module = () => {
     insertFileMutation.mutate({ payload, file });
   };
 
+  const navigate = useNavigate();
+
   return (
     <>
       <DeleteFileModal
@@ -181,6 +183,14 @@ const Module = () => {
           <Loading />
         ) : (
           <>
+            <Button
+              startIcon={<ArrowBack />}
+              sx={{ mb: 1, fontWeight: 'bold' }}
+              size="large"
+              onClick={() => navigate(-1)}
+            >
+              {moduleQuery.data.name}
+            </Button>
             <Box>
               <Typography variant="h4" fontWeight="bold">
                 {moduleQuery.data.name}

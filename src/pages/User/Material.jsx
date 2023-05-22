@@ -30,6 +30,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Loading from '../../components/Loading';
 import {
   Add,
+  ArrowBack,
   Article,
   Create,
   Delete,
@@ -374,6 +375,14 @@ const Material = () => {
           <Loading />
         ) : (
           <Box>
+            <Button
+              startIcon={<ArrowBack />}
+              sx={{ mb: 1, fontWeight: 'bold' }}
+              size="large"
+              onClick={() => navigate(-1)}
+            >
+              {folderQuery.data.name}
+            </Button>
             <Box
               sx={{
                 height: '200px',
