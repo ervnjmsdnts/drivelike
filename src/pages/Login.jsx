@@ -1,4 +1,14 @@
-import { Box, Button, Container, Link, Stack, Typography } from '@mui/material';
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Link,
+  Stack,
+  Toolbar,
+  Typography
+} from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import Input from '../components/Input';
 import { useMutation } from 'react-query';
@@ -10,6 +20,8 @@ import { toast } from 'react-toastify';
 import { handleKeyDown } from '../helpers';
 import MainLogin from '/mainlogin.jpg';
 import About from './User/About';
+import { ArrowCircleRight, Bolt } from '@mui/icons-material';
+import { useRef } from 'react';
 
 const trivias = [
   {
@@ -70,16 +82,63 @@ const Login = () => {
     loginMutation.mutate({ ...data });
   };
 
+  const loginRef = useRef(null);
+  const triviaRef = useRef(null);
+  const aboutRef = useRef(null);
+
+  const handleClick = (ref) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <Box>
-      <Box
+      <AppBar elevation={0} sx={{ bgcolor: 'white' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            px: 4
+          }}
+        >
+          <Toolbar>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 1
+              }}
+            >
+              <Bolt color="primary" />
+              <Typography variant="h6" fontWeight="bold" color="primary">
+                Math E-turo
+              </Typography>
+            </Box>
+          </Toolbar>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button onClick={() => handleClick(triviaRef)}>Trivias</Button>
+            <Button onClick={() => handleClick(aboutRef)}>About</Button>
+            <Button
+              onClick={() => handleClick(loginRef)}
+              sx={{ color: 'white' }}
+              endIcon={<ArrowCircleRight />}
+              variant="contained"
+            >
+              Get Started
+            </Button>
+          </Box>
+        </Box>
+      </AppBar>
+      <Container
+        ref={loginRef}
         sx={{ display: 'flex', height: '95vh' }}
         onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
       >
         <Box
           sx={{
             display: 'flex',
-            width: '40%',
+            width: '100%',
             justifyContent: 'center',
             alignItems: 'center'
           }}
@@ -132,7 +191,7 @@ const Login = () => {
                   Login
                 </Button>
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+              <Box>
                 <Link
                   component={RouterLink}
                   underline="none"
@@ -154,11 +213,11 @@ const Login = () => {
             component="img"
             src={MainLogin}
             alt="MainLogin"
-            sx={{ width: 1000 }}
+            sx={{ width: 500 }}
           />
         </Box>
-      </Box>
-      <Container sx={{ pb: 2 }}>
+      </Container>
+      <Container ref={triviaRef} sx={{ pb: 2 }}>
         {trivias.map((trivia, index) => (
           <Box
             key={index}
@@ -196,8 +255,14 @@ const Login = () => {
             )}
           </Box>
         ))}
-        <About />
       </Container>
+      <About ref={aboutRef} />
+      <Box py={2}>
+        <Divider />
+        <Typography textAlign="center" pt={2}>
+          Copyright © 2023 BatStateUMalvar College of Teacher Education
+        </Typography>
+      </Box>
     </Box>
   );
 };

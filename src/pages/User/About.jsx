@@ -1,9 +1,10 @@
 import { Email, Facebook, Phone } from '@mui/icons-material';
-import { Avatar, Box, Divider, Link, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Container, Link, Stack, Typography } from '@mui/material';
 import Danao from '../../assets/danao.jpg';
 import Bea from '../../assets/bea.jpg';
 import Manalo from '../../assets/manalo.jpg';
 import Manimtim from '../../assets/manimtim.jpg';
+import { forwardRef } from 'react';
 
 const Social = ({ name, Icon, href }) => {
   return (
@@ -32,10 +33,10 @@ const Researcher = ({ name, src }) => {
   );
 };
 
-const About = () => {
+const About = forwardRef((_, ref) => {
   return (
-    <Box pt={8} height="100%">
-      <Box sx={{ display: 'grid', gridTemplateColumns: '30% auto', gap: 4 }}>
+    <Container sx={{ pt: 12 }} height="100%" ref={ref}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: '40% auto', gap: 4 }}>
         <Box>
           <Typography variant="h5" fontWeight="bold" mb={2}>
             Meet the Researchers
@@ -60,7 +61,8 @@ const About = () => {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)'
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: 2
           }}
         >
           <Researcher name="Danao, Daniella P." src={Danao} />
@@ -69,14 +71,10 @@ const About = () => {
           <Researcher name="Manimtim, Rael P." src={Manimtim} />
         </Box>
       </Box>
-      <Box pt={2}>
-        <Divider />
-        <Typography textAlign="center" pt={2}>
-          Copyright © 2023 BatStateUMalvar College of Teacher Education
-        </Typography>
-      </Box>
-    </Box>
+    </Container>
   );
-};
+});
+
+About.displayName = 'About';
 
 export default About;
