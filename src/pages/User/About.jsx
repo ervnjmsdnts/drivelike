@@ -34,10 +34,10 @@ const Researcher = ({ name, src }) => {
 
 const About = () => {
   return (
-    <Box position="relative" height="100%">
+    <Box pt={8} height="100%">
       <Box sx={{ display: 'grid', gridTemplateColumns: '30% auto', gap: 4 }}>
         <Box>
-          <Typography variant="h5" fontWeight="bold">
+          <Typography variant="h5" fontWeight="bold" mb={2}>
             Meet the Researchers
           </Typography>
           <Typography variant="h6" color="gray">
@@ -69,10 +69,10 @@ const About = () => {
           <Researcher name="Manimtim, Rael P." src={Manimtim} />
         </Box>
       </Box>
-      <Box sx={{ position: 'absolute', bottom: 0, width: '100%' }}>
+      <Box pt={2}>
         <Divider />
-        <Typography textAlign="center" py={2}>
-          2023 &copy; BatStateUMalvar CIT Student
+        <Typography textAlign="center" pt={2}>
+          Copyright © 2023 BatStateUMalvar College of Teacher Education
         </Typography>
       </Box>
     </Box>

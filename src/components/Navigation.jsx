@@ -1,4 +1,10 @@
-import { Bolt, FilterFrames, MenuBook, People, Person } from '@mui/icons-material';
+import {
+  Bolt,
+  FilterFrames,
+  MenuBook,
+  People,
+  Person
+} from '@mui/icons-material';
 import {
   AppBar,
   Avatar,
@@ -116,21 +122,21 @@ const ChangePasswordModal = ({ onClose, open }) => {
           <Input
             size="small"
             label="Old Password"
-            type="password"
             {...register('old_password')}
+            password
             errors={errors.old_password}
           />
           <Input
             size="small"
             label="New Password"
-            type="password"
+            password
             {...register('new_password')}
             errors={errors.new_password}
           />
           <Input
             size="small"
             label="Confirm Password"
-            type="password"
+            password
             {...register('confirm_password')}
             errors={errors.confirm_password}
           />
@@ -322,14 +328,6 @@ const Navigation = ({ children }) => {
                       <FilterFrames sx={{ color: 'white' }} />
                     </ListItemIcon>
                     <ListItemText primary="Board" />
-                  </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                  <ListItemButton onClick={() => navigate('user/about')}>
-                    <ListItemIcon>
-                      <Person sx={{ color: 'white' }} />
-                    </ListItemIcon>
-                    <ListItemText primary="About" />
                   </ListItemButton>
                 </ListItem>
               </>

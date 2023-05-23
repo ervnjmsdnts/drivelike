@@ -1,7 +1,9 @@
-import { Box, TextField } from '@mui/material';
-import { forwardRef } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
+import { forwardRef, useState } from 'react';
 
-const Input = forwardRef(({ errors, ...rest }, ref) => {
+const Input = forwardRef(({ errors, password, ...rest }, ref) => {
+  const [showPassword, setShowPassword] = useState(password);
   return (
     <Box width="100%">
       <TextField
@@ -9,6 +11,16 @@ const Input = forwardRef(({ errors, ...rest }, ref) => {
         error={errors}
         helperText={errors ? errors.message : null}
         fullWidth
+        type={showPassword ? 'password' : 'text'}
+        InputProps={{
+          endAdornment: password && (
+            <InputAdornment position="end">
+              <IconButton onClick={() => setShowPassword((prev) => !prev)}>
+                {showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          )
+        }}
         {...rest}
       />
     </Box>

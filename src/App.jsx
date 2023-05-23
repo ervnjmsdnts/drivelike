@@ -6,7 +6,6 @@ import NotExist from './pages/NotExist';
 import ProtectedRoute from './components/ProtectedRoute';
 import File from './pages/User/File';
 import Board from './pages/User/Board';
-import About from './pages/User/About';
 import Topic from './pages/User/Topic';
 import Material from './pages/User/Material';
 import Module from './pages/User/Module';
@@ -24,7 +23,6 @@ const App = () => {
         <Route element={<ApplicationLayout />}>
           <Route path="user" element={<ProtectedRoute user={user} />}>
             <Route path="" element={<Topic />} />
-            <Route path="about" element={<About />} />
             <Route path="board" element={<Board />} />
             <Route path=":folderId" element={<Material />} />
             <Route path=":folderId/module/:moduleId" element={<Module />} />

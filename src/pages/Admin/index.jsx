@@ -2,11 +2,13 @@ import { Delete, PersonAddAlt1 } from '@mui/icons-material';
 import {
   Box,
   Button,
+  Checkbox,
   Container,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   IconButton
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -45,6 +47,8 @@ const CreateNewUserModal = ({ onClose, open }) => {
     formState: { errors }
   } = useForm({ resolver: zodResolver(createUserSchema) });
 
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const queryClient = useQueryClient();
 
   const createUserMutation = useMutation(createUser, {
@@ -58,7 +62,7 @@ const CreateNewUserModal = ({ onClose, open }) => {
   });
 
   const onSubmit = (data) => {
-    data.role = 'USER';
+    data.role = isAdmin ? 'ADMIN' : 'USER';
     createUserMutation.mutate({ ...data });
     onClose();
   };
@@ -83,9 +87,19 @@ const CreateNewUserModal = ({ onClose, open }) => {
           <Input
             size="small"
             label="Password"
-            type="password"
+            password
             errors={errors.password}
             {...register('password')}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isAdmin}
+                onChange={(e) => setIsAdmin(e.target.checked)}
+                inputProps={{ 'aria-label': 'controlled' }}
+              />
+            }
+            label="Admin"
           />
         </Box>
       </DialogContent>
@@ -149,6 +163,7 @@ const Admin = () => {
       filterable: false
     },
     { field: 'email', headerName: 'Email', hideable: false, flex: 1 },
+    { field: 'role', headerName: 'Role', hideable: false, flex: 1 },
     {
       field: 'delete',
       headerName: '',
@@ -183,7 +198,8 @@ const Admin = () => {
       <Container>
         <Box sx={{ display: 'flex', justifyContent: 'end' }}>
           <Button
-            variant="outlined"
+            variant="contained"
+            sx={{ color: 'white' }}
             startIcon={<PersonAddAlt1 />}
             onClick={() => setOpenCreateUser(true)}
           >

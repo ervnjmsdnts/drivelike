@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
 import { handleKeyDown } from '../helpers';
 import MainLogin from '/mainlogin.jpg';
+import About from './User/About';
 
 const trivias = [
   {
@@ -117,7 +118,7 @@ const Login = () => {
                 />
                 <Input
                   label="Password"
-                  type="password"
+                  password
                   errors={errors.password}
                   {...register('password')}
                 />
@@ -125,6 +126,7 @@ const Login = () => {
                   variant="contained"
                   fullWidth
                   size="large"
+                  sx={{ color: 'white' }}
                   onClick={handleSubmit(onSubmit)}
                 >
                   Login
@@ -194,6 +196,7 @@ const Login = () => {
             )}
           </Box>
         ))}
+        <About />
       </Container>
     </Box>
   );

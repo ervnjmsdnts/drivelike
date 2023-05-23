@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Container,
   FormControl,
@@ -94,9 +95,14 @@ const UserMaterials = () => {
           </FormControl>
           {filteredEmails.map((email) => (
             <Box key={email} mb={4}>
-              <Typography variant="h6" mb={2} fontWeight="bold">
-                {email}
-              </Typography>
+              <Box
+                sx={{ display: 'flex', mb: 2, alignItems: 'center', gap: 2 }}
+              >
+                <Avatar />
+                <Typography variant="h6" fontWeight="bold">
+                  {email}
+                </Typography>
+              </Box>
               <Box
                 sx={{
                   display: 'grid',
