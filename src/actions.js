@@ -180,3 +180,8 @@ export const updateComment = async ({ commentId, fileId, payload = {} }) => {
   );
   return response.data;
 };
+
+export const getProfiles = async () => {
+  const response = await request.get('/users/profile-picture-lists/');
+  return response.data;
+};

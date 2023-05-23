@@ -9,11 +9,11 @@ import {
   Typography
 } from '@mui/material';
 import { useQuery } from 'react-query';
-import { getFiles } from '../../actions';
+import { getFiles, getProfiles } from '../../actions';
 import Loading from '../../components/Loading';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { blue } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const ModuleItem = ({ name, fileId }) => {
   const navigate = useNavigate();
@@ -40,6 +40,7 @@ const ModuleItem = ({ name, fileId }) => {
 
 const UserMaterials = () => {
   const filesQuery = useQuery('files', getFiles);
+  const picturesQuery = useQuery('userProfiles', getProfiles);
   const [filterEmail, setFilterEmail] = useState('all');
 
   const [searchparams] = useSearchParams();
@@ -67,9 +68,14 @@ const UserMaterials = () => {
       ? uniqueEmails.filter((email) => email.includes(''))
       : uniqueEmails.filter((email) => email.includes(filterEmail));
 
+  const isLoading = useMemo(
+    () => filesQuery.isLoading || picturesQuery.isLoading,
+    [filesQuery.isLoading, picturesQuery.isLoading]
+  );
+
   return (
     <Container sx={{ pb: 2 }}>
-      {filesQuery.isLoading ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <Box>
@@ -98,7 +104,12 @@ const UserMaterials = () => {
               <Box
                 sx={{ display: 'flex', mb: 2, alignItems: 'center', gap: 2 }}
               >
-                <Avatar />
+                <Avatar
+                  src={`https://math-eturo.up.railway.app${
+                    picturesQuery.data?.find((p) => p.user_id.email === email)
+                      ?.profile_picture
+                  }`}
+                />
                 <Typography variant="h6" fontWeight="bold">
                   {email}
                 </Typography>

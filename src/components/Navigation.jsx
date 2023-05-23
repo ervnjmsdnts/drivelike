@@ -167,7 +167,9 @@ const Navigation = ({ children }) => {
 
   const user = JSON.parse(localStorage.getItem('profile'));
 
-  const userProfileQuery = useQuery('userProfile', () => getProfile(user.id));
+  const userProfileQuery = useQuery(['userProfile', user.id], () =>
+    getProfile(user.id)
+  );
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -227,7 +229,7 @@ const Navigation = ({ children }) => {
                 <Avatar
                   sx={{ cursor: 'pointer', height: 32, width: 32 }}
                   onClick={handleMenu}
-                  src={`https://filestoragewebapi-production.up.railway.app${profile}`}
+                  src={`https://math-eturo.up.railway.app${profile}`}
                 />
                 <Menu
                   id="menu-appbar"
