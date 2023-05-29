@@ -77,12 +77,12 @@ const EditTopicModal = ({ open, onClose, topic }) => {
       open={open}
       onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
     >
-      <DialogTitle>Edit Topic</DialogTitle>
+      <DialogTitle>Edit Module</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Box sx={{ pt: 1 }}>
           <Input
             size="small"
-            label="Topic Name"
+            label="Module Name"
             {...register('name')}
             errors={errors.name}
           />
@@ -133,12 +133,12 @@ const CreateTopicModal = ({ open, onClose }) => {
       open={open}
       onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
     >
-      <DialogTitle>New Topic</DialogTitle>
+      <DialogTitle>New Module</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Box sx={{ pt: 1 }}>
           <Input
             size="small"
-            label="Topic Name"
+            label="Module Name"
             {...register('name')}
             errors={errors.name}
           />
@@ -305,7 +305,7 @@ const Topic = () => {
           variant="contained"
           sx={{ color: 'white' }}
         >
-          New Topic
+          New Module
         </Button>
       </Box>
       {foldersQuery.isLoading ? (

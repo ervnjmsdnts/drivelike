@@ -91,12 +91,12 @@ const CreateModuleModal = ({ open, onClose, folderId }) => {
       open={open}
       onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
     >
-      <DialogTitle>New Module</DialogTitle>
+      <DialogTitle>New Topic</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Box sx={{ pt: 1 }}>
           <Input
             size="small"
-            label="Module Name"
+            label="Topic Name"
             {...register('name')}
             errors={errors.name}
           />
@@ -153,12 +153,12 @@ const EditModuleModal = ({ open, onClose, module }) => {
       open={open}
       onKeyDown={(e) => handleKeyDown(e, handleSubmit(onSubmit))}
     >
-      <DialogTitle>Edit Module</DialogTitle>
+      <DialogTitle>Edit Topic</DialogTitle>
       <DialogContent sx={{ minWidth: '400px' }}>
         <Box sx={{ pt: 1 }}>
           <Input
             size="small"
-            label="Module Name"
+            label="Topic Name"
             {...register('name')}
             errors={errors.name}
           />
@@ -433,7 +433,7 @@ const Material = () => {
                 <ListItemIcon>
                   <Article />
                 </ListItemIcon>
-                <ListItemText>Module</ListItemText>
+                <ListItemText>Topic</ListItemText>
               </MenuItem>
               <MenuItem onClick={() => navigate('create-quiz')}>
                 <ListItemIcon>
